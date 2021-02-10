@@ -2,6 +2,10 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const request = require('request')
 const https = require('https')
+require('dotenv').config();
+
+
+
 
 const app = express()
 app.use(bodyParser.urlencoded({extended:true}))
@@ -25,11 +29,11 @@ app.post("/",(req,res)=>{
     }
 
     var jsonData = JSON.stringify(data)
-    const url = 'https://us7.api.mailchimp.com/3.0/lists/f578d5f2b7' 
+    const url = process.env.APP_URL
 
     const options = {
         method: "POST",
-        auth: "saurabh:208caffb8cc4b67ca41a6a7318ef849a-us7"
+        auth: process.env.APP_AUTH
     }
 
     const request = https.request(url,options,(response)=>{
@@ -49,4 +53,5 @@ app.post("/failure",(req,res)=>{
     res.redirect("/")
 })
 app.listen(process.env.PORT || 3000,()=>{console.log('server started')})
+
 
